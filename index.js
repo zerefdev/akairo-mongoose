@@ -67,6 +67,7 @@ class MongooseProvider extends Provider {
     } catch (error) {
       console.error(error);
     }
+  }
 
   /**
    * Deletes a value.
