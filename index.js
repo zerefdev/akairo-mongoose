@@ -21,10 +21,14 @@ class MongooseProvider extends Provider {
    * @returns {<void>}
    */
   async init() {
+    try {
     const guilds = await this.model.find();
     for (const i in guilds) {
       const guild = guilds[i];
       this.items.set(guild.id, guild.settings);
+    }
+    } catch (error) {
+    console.error(error);
     }
   }
 
@@ -55,12 +59,14 @@ class MongooseProvider extends Provider {
     const data = this.items.get(id) || {};
     data[key] = value;
     this.items.set(id, data);
-
-    const doc = await this.getDocument(id);
-    doc.settings[key] = value;
-    doc.markModified('settings');
-    return await doc.save();
-  }
+    try {
+      const doc = await this.getDocument(id);
+      doc.settings[key] = value;
+      doc.markModified('settings');
+      return await doc.save();
+    } catch (error) {
+      console.error(error);
+    }
 
   /**
    * Deletes a value.
@@ -71,11 +77,14 @@ class MongooseProvider extends Provider {
   async delete(id, key) {
     const data = this.items.get(id) || {};
     delete data[key];
-
+    try {
     const doc = await this.getDocument(id);
     delete doc.settings[key];
     doc.markModified('settings');
     return await doc.save();
+    } catch (error) {
+     console.error(error);
+    }
   }
 
   /**
@@ -86,7 +95,11 @@ class MongooseProvider extends Provider {
   async clear(id) {
     this.items.delete(id);
     const doc = await this.getDocument(id);
+    try {
     if (doc) await doc.remove();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   /**
@@ -95,12 +108,16 @@ class MongooseProvider extends Provider {
    * @returns {Promise} - Mongoose query object|document
    */
   async getDocument(id) {
+    try {
     const obj = await this.model.findOne({ id });
     if (!obj) {
       const newDoc = await new this.model({ id, settings: {} }).save();
       return newDoc;
     }
     return obj;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
