@@ -1,6 +1,6 @@
 {
     "name": "akairo-mongoose",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "A mongoose provider for discord-akairo",
     "main": "index.js",
     "repository": {
