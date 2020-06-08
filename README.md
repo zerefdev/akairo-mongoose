@@ -6,8 +6,10 @@ A mongoose provider for [discord-akairo](https://github.com/discord-akairo/disco
 
 ## Installation
 
+make sure you have mongoose installed and please take a look at the [model example](https://github.com/Zerefdev/akairo-mongoose#model-example)
+
 ```bash
-npm i mongoose akairo-mongoose
+npm i akairo-mongoose
 ```
 
 # Using Mongoose Provider
@@ -53,11 +55,11 @@ For example:
 
 ```js
 class CustomClient extends AkairoClient {
-  /* ... */
-  async login(token) {
-    await this.settings.init();
-    return super.login(token);
-  }
+    /* ... */
+    async login(token) {
+        await this.settings.init();
+        return super.login(token);
+    }
 }
 ```
 
@@ -65,47 +67,19 @@ Now, the provider can be used like so:
 
 ```js
 class CustomClient extends AkairoClient {
-  constructor() {
-    super({
-      prefix: (message) => {
-        if (message.guild) {
-          // The third param is the default.
-          return this.settings.get(message.guild.id, 'prefix', '!');
-        }
-        return '!';
-      }
-    });
-    /* ... */
-  }
+    constructor() {
+        super({
+            prefix: (message) => {
+                if (message.guild) {
+                    // The third param is the default.
+                    return this.settings.get(message.guild.id, 'prefix', '!');
+                }
+                return '!';
+            }
+        });
+        /* ... */
+    }
 }
-```
-
-Values can be set with the `set` method:
-
-```js
-const { Command } = require('discord-akairo');
-class PrefixCommand extends Command {
-  constructor() {
-    super('prefix', {
-      aliases: ['prefix'],
-      category: 'stuff',
-      args: [
-        {
-          id: 'prefix',
-          default: '!'
-        }
-      ],
-      channel: 'guild'
-    });
-  }
-  async exec(message, args) {
-    // The third param is the default.
-    const oldPrefix = this.client.settings.get(message.guild.id, 'prefix', '!');
-    await this.client.settings.set(message.guild.id, 'prefix', args.prefix);
-    return message.reply(`Prefix changed from ${oldPrefix} to ${args.prefix}`);
-  }
-}
-module.exports = PrefixCommand;
 ```
 
 ### Model Example
@@ -113,24 +87,26 @@ module.exports = PrefixCommand;
 ```js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+
 const guildSchema = new Schema({
-  id: {
-    type: String,
-    required: true
-  },
-  name: {
-    type: String
-  },
-  joinedAt: {
-    type: Number
-  },
-  settings: {
-    type: Object,
-    require: true
-  }
+    // 'id' field must be first - you can name it whatever you want
+    id: {
+        type: String,
+        required: true
+    },
+    // 'data' field must be second - you can name it whatever you want
+    data: {
+        type: Object,
+        required: true
+    }
 });
-module.exports = mongoose.model('model', guildSchema);
+
+module.exports = mongoose.model('Guild', guildSchema);
 ```
+
+# Full example here
+
+https://github.com/Zerefdev/akairo-mongoose/tree/master/example
 
 ## License
 

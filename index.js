@@ -3,10 +3,11 @@ const { Provider } = require('discord-akairo');
 /**
  * Provider using the `Mongoose` library.
  * @param {Model} model - A Mongoose model.
+ * @param {ProviderOptions} [options={}] - Options to use.
  * @extends {Provider}
  */
 class MongooseProvider extends Provider {
-    constructor(model) {
+    constructor(model, { idField, settingsField } = {}) {
         super();
 
         /**
@@ -14,6 +15,18 @@ class MongooseProvider extends Provider {
          * @type {Model}
          */
         this.model = model;
+
+        /**
+         * Guild ID field
+         * @type {Model}
+         */
+        this.id = Object.keys(model.schema.obj)[0];
+
+        /**
+         * Guild settings/data field
+         * @type {Model}
+         */
+        this.settings = Object.keys(model.schema.obj)[1];
     }
 
     /**
@@ -25,7 +38,7 @@ class MongooseProvider extends Provider {
             const guilds = await this.model.find();
             for (const i in guilds) {
                 const guild = guilds[i];
-                this.items.set(guild.id, guild.settings);
+                this.items.set(guild[this.id], guild[this.settings]);
             }
         } catch (error) {
             console.error(error);
@@ -60,8 +73,8 @@ class MongooseProvider extends Provider {
         this.items.set(id, data);
         try {
             const doc = await this.getDocument(id);
-            doc.settings[key] = value;
-            doc.markModified('settings');
+            doc[this.settings][key] = value;
+            doc.markModified(this.settings);
             return await doc.save();
         } catch (error) {
             console.error(error);
@@ -79,8 +92,8 @@ class MongooseProvider extends Provider {
         delete data[key];
         try {
             const doc = await this.getDocument(id);
-            delete doc.settings[key];
-            doc.markModified('settings');
+            delete doc[this.settings][key];
+            doc.markModified(this.settings);
             return await doc.save();
         } catch (error) {
             console.error(error);
@@ -109,9 +122,9 @@ class MongooseProvider extends Provider {
      */
     async getDocument(id) {
         try {
-            const obj = await this.model.findOne({ id });
+            let obj = await this.model.findOne({ [this.id]: id });
             if (!obj) {
-                obj = await new this.model({ id, settings: {} }).save();
+                obj = await new this.model({ [this.id]: id, [this.settings]: {} }).save();
             }
             return obj;
         } catch (error) {

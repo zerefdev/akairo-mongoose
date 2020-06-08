@@ -1,27 +1,27 @@
 {
-  "name": "akairo-mongoose",
-  "version": "1.0.2",
-  "description": "A mongoose provider for discord-akairo",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Zerefdev/akairo-mongoose.git"
-  },
-  "keywords": [
-    "mongodb",
-    "mongoose",
-    "provider",
-    "discord.js",
-    "discord-akairo"
-  ],
-  "author": "Zerefdev",
-  "license": "MIT",
-  "peerDependencies": {
-    "discord-akairo": "^8.0.0",
-    "mongoose": "^5.9.14"
-  },
-  "bugs": {
-    "url": "https://github.com/Zerefdev/akairo-mongoose/issues"
-  },
-  "homepage": "https://github.com/Zerefdev/akairo-mongoose#readme"
+    "name": "akairo-mongoose",
+    "version": "1.0.3",
+    "description": "A mongoose provider for discord-akairo",
+    "main": "index.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Zerefdev/akairo-mongoose.git"
+    },
+    "keywords": [
+        "mongodb",
+        "mongoose",
+        "provider",
+        "discord.js",
+        "discord-akairo"
+    ],
+    "author": "Zerefdev",
+    "license": "MIT",
+    "peerDependencies": {
+        "discord-akairo": "^8.0.0",
+        "mongoose": "^5.9.14"
+    },
+    "bugs": {
+        "url": "https://github.com/Zerefdev/akairo-mongoose/issues"
+    },
+    "homepage": "https://github.com/Zerefdev/akairo-mongoose#readme"
 }
