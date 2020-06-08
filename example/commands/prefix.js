@@ -6,7 +6,8 @@ class PrefixCommand extends Command {
             category: 'stuff',
             args: [
                 {
-                    id: 'prefix'
+                    id: 'prefix',
+                    default: '!'
                 }
             ],
             channel: 'guild'

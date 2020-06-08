@@ -3,7 +3,6 @@ const { Provider } = require('discord-akairo');
 /**
  * Provider using the `Mongoose` library.
  * @param {Model} model - A Mongoose model.
- * @param {ProviderOptions} [options={}] - Options to use.
  * @extends {Provider}
  */
 class MongooseProvider extends Provider {
