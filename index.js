@@ -7,7 +7,7 @@ const { Provider } = require('discord-akairo');
  * @extends {Provider}
  */
 class MongooseProvider extends Provider {
-    constructor(model, { idField, settingsField } = {}) {
+    constructor(model) {
         super();
 
         /**
