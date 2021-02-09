@@ -1,5 +1,7 @@
 # Discord-Akairo MongooseProvider
 
+⚠️  An earlier version of this provider has been [merged](https://github.com/discord-akairo/discord-akairo/pull/125) with discord-akairo, you might not need to use this one.
+
 ## About
 
 A mongoose provider for [discord-akairo](https://github.com/discord-akairo/discord-akairo).
